@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Database System</title>
+    <style>
+        /* Some basic styling for demonstration purposes */
+        #searchIcon {
+            cursor: pointer;
+        }
+        #output {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Student Database System</h1>
+    <input type="text" id="studentId" placeholder="Student ID">
+    <input type="text" id="studentName" placeholder="Student Name">
+    <button onclick="addStudent()">Add Student</button>
+    <br><br>
+    <input type="text" id="searchInput" placeholder="Search by ID or Name">
+    <img id="searchIcon" src="search-icon.png" alt="Search" width="20" height="20">
+    <div id="output"></div>
+
+    <script>
+        // Student database array
+        let students = [];
+
+        // Function to add a student to the database
+        function addStudent() {
+            let id = document.getElementById('studentId').value.trim();
+            let name = document.getElementById('studentName').value.trim();
+            if (id && name) {
+                students.push({ id: id, name: name });
+                displayStudents();
+                document.getElementById('studentId').value = '';
+                document.getElementById('studentName').value = '';
+            } else {
+                alert('Please enter valid student ID and name.');
+            }
+        }
+
+        // Function to search for a student by ID or name
+        function searchStudent() {
+            let searchText = document.getElementById('searchInput').value.trim().toLowerCase();
+            let filteredStudents = students.filter(student => student.id.toLowerCase().includes(searchText) || student.name.toLowerCase().includes(searchText));
+            displayStudents(filteredStudents);
+        }
+
+        // Function to display students in the database
+        function displayStudents(studentList = students) {
+            let output = '<h2>Student Database</h2>';
+            output += '<ul>';
+            studentList.forEach(student => {
+                output += `<li>${student.id} - ${student.name}</li>`;
+            });
+            output += '</ul>';
+            document.getElementById('output').innerHTML = output;
+        }
+
+        // Event listener for search icon click
+        document.getElementById('searchIcon').addEventListener('click', searchStudent);
+    </script>
+</body>
+</html>
